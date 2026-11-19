@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # AutoDataPrep — Studio Intelligent de Préparation des Données pour le Machine Learning
 
 **AutoDataPrep** est une application complète, professionnelle, modulaire et générique de préparation des données pour les projets de Data Science et Machine Learning. Elle automatise l'ensemble des étapes de préparation des données tout en offrant un contrôle visuel et interactif à l'utilisateur.
@@ -273,3 +274,6 @@ L'architecture découplée permet d'ajouter très simplement de nouvelles foncti
 - **Zéro fuite d'information** : Les transformateurs et imputeurs sont systématiquement ajustés (`fit`) sur les données d'entraînement uniquement, évitant le surapprentissage optimiste.
 - **Protection des données sensibles** : Les colonnes contenant des PII (emails, téléphones, sécurité sociale) sont détectées et isolées avec alertes de conformité RGPD.
 - **Réactivité de l'interface** : Tous les calculs lourds sont exécutés dans des threads d'arrière-plan avec indicateurs visuels de progression.
+=======
+# Application-Data-Preparation
+>>>>>>> 3e240f6ebc9c7a25220bbc5ae4a95a63e94f1d79
