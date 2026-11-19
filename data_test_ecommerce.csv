@@ -1,0 +1,21 @@
+client_id,age,salaire,ville,date_inscription,est_fidele,commentaire,score_satisfaction,email_client,statut_tier,churn
+CUST_001,34,48500.5,Paris,2023-01-15,oui,Service client réactif et agréable,8.5,jean.dupont@email.fr,Or,0
+CUST_002,45,62000.0, Lyon ,2022-11-20,oui,Livraison rapide produit conforme,9.0,marie.curie@lab.fr,Platine,0
+CUST_003,28,,Marseille,2023-03-05,non,Délais de livraison trop longs et emballage abîmé,4.0,lucas.martin@web.com,Argent,1
+CUST_004,52,78000.0,lyon,2021-08-12,oui,Très satisfait des produits achetés,9.5,sophie.durand@societe.fr,Platine,0
+CUST_005,19,21000.0,Bordeaux,2023-05-18,non,Article défectueux remboursement en attente,2.0,antoine.dubois@mail.com,Bronze,1
+CUST_006,63,95000.0,Paris,2020-04-22,oui,Client fidèle depuis de nombreuses années,9.0,henri.lemoine@orange.fr,Platine,0
+CUST_007,31,39000.0,Nantes,2023-02-10,oui,Bonne expérience globale bon rapport qualité prix,7.5,camille.moreau@free.fr,Argent,0
+CUST_008,,44000.0,Toulouse,2023-04-01,non,Problème de facturation non résolu,3.5,julien.bernard@yahoo.fr,Argent,1
+CUST_009,41,56000.0, Lille ,2022-09-30,oui,Qualité irréprochable recommande fortement,8.5,chloe.petit@laposte.net,Or,0
+CUST_010,24,28000.0,Paris,2023-06-12,non,Site internet parfois lent au paiement,6.0,kevin.leroy@outlook.fr,Bronze,0
+CUST_011,38,51000.0,marseille,2022-12-01,oui,SAV très professionnel et à l'écoute,8.0,sarah.roux@gmail.com,Or,0
+CUST_012,49,67000.0,Lyon,2021-10-14,oui,Commande reçue dans les temps impartis,8.5,pierre.david@free.fr,Or,0
+CUST_013,29,32000.0,Nice,2023-05-02,non,Retard important sur la livraison,3.0,laura.morel@wanadoo.fr,Bronze,1
+CUST_014,56,84000.0,Paris,2020-01-19,oui,Excellente prestation et conseils personnalisés,9.5,jacques.fournier@sfr.fr,Platine,0
+CUST_015,33,46000.0,Strasbourg,2022-07-25,non,Pas de réponse à mes emails réclamations,2.5,emma.girard@gmail.com,Argent,1
+CUST_016,42,59000.0,Rennes,2022-03-11,oui,Très bon suivi de commande,8.0,nicolas.andre@club-internet.fr,Or,0
+CUST_017,27,31000.0,Montpellier,2023-04-19,non,Produit non conforme à la description en ligne,4.0,lea.mercier@live.fr,Bronze,1
+CUST_018,50,73000.0,Bordeaux,2021-06-08,oui,Rien à redire service de grande qualité,9.0,michel.dupuy@bbox.fr,Platine,0
+CUST_019,36,49500.0,Toulouse,2022-10-05,oui,Livraison soignée et rapide,8.0,claire.guillot@gmail.com,Or,0
+CUST_020,47,69000.0,Paris,2021-11-28,non,Frais de retour trop élevés non spécifiés,4.5,alexandre.perrot@hotmail.fr,Argent,1

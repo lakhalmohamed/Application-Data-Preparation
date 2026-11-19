@@ -1,0 +1,21 @@
+﻿ID,Name,Age,Gender,Email,Salary,Joining_Date,Department
+1,Mohamed A.,22,Male,mohamed@gmail.com,6500,1/15/2024,IT
+2,Sara Ben,25,Female,sara.ben@gmail.com,7200,15/02/2024,HR
+3, Youssef ,,,youssef@mail,5800,3/1/2024,Finance
+4,Amine,28,M,amine@gmail.com,8000,4/10/2024,IT
+5,Laila,twenty-six,Female,laila@gmail.com,7000,10/5/2024,Marketing
+6,Hassan,31,Male,,8500,6/1/2024,Sales
+7,Nadia,29,Female,nadia@gmail.com,N/A,7/12/2024,HR
+8,Karim,45,Male,karim@gmail.com,12000,8/20/2024,IT
+9,sara ben,25,Female,sara.ben@gmail.com,7200,15/02/2024,HR
+10,Imane,-5,Female,imane@gmail.com,6500,9/1/2024,Marketing
+11,Omar,200,Male,omar@gmail.com,9000,9/15/2024,Sales
+12,Rachid,34,Male,rachidgmail.com,7800,10/1/2024,Finance
+13,,27,Female,asmaa@gmail.com,6900,11/12/2024,HR
+14,Asmaa,27,Female,asmaa@gmail.com,6900,11/12/2024,HR
+15,Ayoub,30,Male,ayoub@gmail.com,70000,12/1/2024,IT
+16,Fatima,24,F,fatima@gmail.com,6200,1/15/2025,marketing
+17,Khalid,NaN,Male,khalid@gmail.com,8100,2/1/2025,Sales
+18,Salma,26,Female,salma@gmail,7300,3/15/2025,HR
+19,Hicham,33,Male,hicham@gmail.com,,4/10/2025,Finance
+20,Zineb,28,Female,zineb@gmail.com,7500,5/20/2025,IT

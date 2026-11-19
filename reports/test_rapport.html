@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>AutoDataPrep - Rapport d'Audit & Préparation des Données</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --success: #16a34a;
+            --warning: #d97706;
+            --danger: #dc2626;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #1e293b;
+            --border: #e2e8f0;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 30px 40px;
+            line-height: 1.5;
+        }
+        .header {
+            background: linear-gradient(135deg, #1e40af, #3b82f6);
+            color: white;
+            padding: 25px 30px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .header h1 { margin: 0 0 8px 0; font-size: 26px; }
+        .header p { margin: 0; opacity: 0.9; font-size: 14px; }
+        .kpi-container {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+        .kpi-card {
+            flex: 1;
+            min-width: 170px;
+            background: var(--card-bg);
+            padding: 18px 20px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .kpi-title { font-size: 13px; color: #64748b; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+        .kpi-value { font-size: 24px; font-weight: 700; color: var(--text); }
+        .card {
+            background: var(--card-bg);
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            margin-bottom: 25px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            overflow: hidden;
+        }
+        .card-header {
+            background: #f1f5f9;
+            padding: 14px 20px;
+            font-weight: 700;
+            font-size: 16px;
+            border-bottom: 1px solid var(--border);
+            color: #0f172a;
+        }
+        .card-body { padding: 20px; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13.5px;
+        }
+        th, td {
+            padding: 10px 14px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+        th {
+            background: #f8fafc;
+            color: #475569;
+            font-weight: 600;
+        }
+        tr:hover { background-color: #f8fafc; }
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-size: 11.5px;
+            font-weight: 600;
+        }
+        .badge-conf-élevée { background: #dcfce7; color: #15803d; }
+        .badge-conf-moyenne { background: #fef9c3; color: #a16207; }
+        .badge-conf-faible { background: #fee2e2; color: #b91c1c; }
+        .badge-danger { background: #fee2e2; color: #b91c1c; }
+        .badge-warning { background: #ffedd5; color: #c2410c; }
+        .badge-info { background: #e0f2fe; color: #0369a1; }
+        .badge-success { background: #dcfce7; color: #15803d; }
+        .alert {
+            padding: 14px 18px;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        .alert-danger { background: #fef2f2; border: 1px solid #fecaca; color: #991b1b; }
+        .alert-success { background: #f0fdf4; border: 1px solid #bbf7d0; color: #166534; }
+        code {
+            background: #f1f5f9;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: Consolas, Monaco, monospace;
+            font-size: 12.5px;
+            color: #d946ef;
+        }
+        .footer {
+            text-align: center;
+            font-size: 12px;
+            color: #94a3b8;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Rapport d'Audit et de Préparation Machine Learning</h1>
+        <p>Généré automatiquement par AutoDataPrep le 05/11/2026 à 14:12:51 pour <strong>data_test_ecommerce.csv</strong></p>
+    </div>
+
+    <div class="kpi-container">
+        <div class="kpi-card">
+            <div class="kpi-title">Dimensions Initiales</div>
+            <div class="kpi-value">20 × 17</div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-title">Cellules Manquantes</div>
+            <div class="kpi-value">2 (0%)</div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-title">Lignes Dupliquées</div>
+            <div class="kpi-value">0 (0.0%)</div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-title">Mémoire Allouée</div>
+            <div class="kpi-value">0.1 Mo</div>
+        </div>
+    </div>
+
+    <!-- Section 1 : Identification Sémantique des Variables -->
+    <div class="card">
+        <div class="card-header">1. Identification Sémantique et Caractéristiques des Variables</div>
+        <div class="card-body" style="padding: 0; overflow-x: auto;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Variable</th>
+                        <th>Type Sémantique Détecté</th>
+                        <th>Confiance</th>
+                        <th>Manquantes</th>
+                        <th>Distinctes</th>
+                        <th>Problèmes Détectés</th>
+                        <th>Recommandations</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+            <tr>
+                <td><strong>client_id</strong></td>
+                <td>Identifiant technique<br><small style="color: #64748b; font-size: 11px;">Nom d&#x27;identifiant et 100% de valeurs distinctes</small></td>
+                <td><span class="badge badge-conf-élevée">Élevée</span></td>
+                <td>0 (0.0%)</td>
+                <td>20 (100.0%)</td>
+                <td><small>Identifiant technique</small></td>
+                <td><small>Exclure des variables prédictives<ul style='margin: 5px 0; padding-left: 20px;'><li><strong>Exclure des variables prédictives</strong> : Les identifiants causent du surapprentissage sans généralisation.</li></ul></small></td>
+            </tr>
+            
+            <tr>
+                <td><strong>age</strong></td>
+                <td>Numérique continu<br><small style="color: #64748b; font-size: 11px;">Variable numérique à virgule flottante continue</small></td>
+                <td><span class="badge badge-conf-élevée">Élevée</span></td>
+                <td>1 (5.0%)</td>
+                <td>19 (100.0%)</td>
+                <td><small>Valeurs manquantes</small></td>
+                <td><small>Imputation par la moyenne<ul style='margin: 5px 0; padding-left: 20px;'><li><strong>Imputation par la moyenne</strong> : Distribution approximativement symétrique.</li></ul></small></td>
+            </tr>
+            
+            <tr>
+                <td><strong>salaire</strong></td>
+                <td>Numérique continu<br><small style="color: #64748b; font-size: 11px;">Variable numérique à virgule flottante continue</small></td>
+                <td><span class="badge badge-conf-élevée">Élevée</span></td>
+                <td>1 (5.0%)</td>
+                <td>19 (100.0%)</td>
+                <td><small>Valeurs manquantes</small></td>
+                <td><small>Imputation par la moyenne<ul style='margin: 5px 0; padding-left: 20px;'><li><strong>Imputation par la moyenne</strong> : Distribution approximativement symétrique.</li></ul></small></td>
+            </tr>
+            
+            <tr>
+                <td><strong>ville</strong></td>
+                <td>Catégoriel nominal<br><small style="color: #64748b; font-size: 11px;">Catégorie nominale discrète (14 modalités)</small></td>
+                <td><span class="badge badge-conf-élevée">Élevée</span></td>
+                <td>0 (0.0%)</td>
+                <td>14 (70.0%)</td>
+                <td><small>Espaces superflus (début/fin), Incohérence de casse (majuscules/minuscules)</small></td>
+                <td><small>Suppression des espaces (strip), Harmonisation de la casse<ul style='margin: 5px 0; padding-left: 20px;'><li><strong>Suppression des espaces (strip)</strong> : Évite la création de catégories dupliquées dues aux espaces.</li><li><strong>Harmonisation de la casse</strong> : Regroupe les catégories identiques écrites avec des casses différentes.</li></ul></small></td>
+            </tr>
+            
+            <tr>
+                <td><strong>date_inscription</strong></td>
+                <td>Temporel (Date/Heure)<br><small style="color: #64748b; font-size: 11px;">Format temporel détecté</small></td>
+                <td><span class="badge badge-conf-élevée">Élevée</span></td>
+                <td>0 (0.0%)</td>
+                <td>20 (100.0%)</td>
+                <td><small>Aucun problème</small></td>
+                <td><small>Conserver tel quel</small></td>
+            </tr>
+            
+            <tr>
+                <td><strong>est_fidele</strong></td>
+                <td>Booléen<br><small style="color: #64748b; font-size: 11px;">Deux valeurs booléennes distinctes</small></td>
+                <td><span class="badge badge-conf-élevée">Élevée</span></td>
+                <td>0 (0.0%)</td>
+                <td>2 (10.0%)</td>
+                <td><small>Aucun problème</small></td>
+                <td><small>Conserver tel quel</small></td>
+            </tr>
+            
+            <tr>
+                <td><strong>commentaire</strong></td>
+                <td>Texte libre<br><small style="color: #64748b; font-size: 11px;">Texte long (moyenne 5.8 mots, 38.6 caractères)</small></td>
+                <td><span class="badge badge-conf-élevée">Élevée</span></td>
+                <td>0 (0.0%)</td>
+                <td>20 (100.0%)</td>
+                <td><small>Aucun problème</small></td>
+                <td><small>Conserver tel quel</small></td>
+            </tr>
+            
+            <tr>
+                <td><strong>score_satisfaction</strong></td>
+                <td>Numérique continu<br><small style="color: #64748b; font-size: 11px;">Variable numérique à virgule flottante continue</small></td>
+                <td><span class="badge badge-conf-élevée">Élevée</span></td>
+                <td>0 (0.0%)</td>
+                <td>12 (60.0%)</td>
+                <td><small>Aucun problème</small></td>
+                <td><small>Conserver tel quel</small></td>
+            </tr>
+            
+            <tr>
+                <td><strong>email_client</strong></td>
+                <td>Donnée sensible / PII<br><small style="color: #64748b; font-size: 11px;">Analyse statistique des valeurs</small></td>
+                <td><span class="badge badge-conf-élevée">Élevée</span></td>
+                <td>0 (0.0%)</td>
+                <td>20 (100.0%)</td>
+                <td><small>Donnée Personnelle Sensible (Email (Nom colonne))</small></td>
+                <td><small>Anonymisation ou Exclusion<ul style='margin: 5px 0; padding-left: 20px;'><li><strong>Anonymisation ou Exclusion</strong> : Protection des données privées (RGPD) et absence d&#x27;intérêt statistique direct.</li></ul></small></td>
+            </tr>
+            
+            <tr>
+                <td><strong>statut_tier</strong></td>
+                <td>Catégoriel nominal<br><small style="color: #64748b; font-size: 11px;">Catégorie nominale discrète (4 modalités)</small></td>
+                <td><span class="badge badge-conf-élevée">Élevée</span></td>
+                <td>0 (0.0%)</td>
+                <td>4 (20.0%)</td>
+                <td><small>Aucun problème</small></td>
+                <td><small>Conserver tel quel</small></td>
+            </tr>
+            
+            <tr>
+                <td><strong>churn</strong></td>
+                <td>Booléen<br><small style="color: #64748b; font-size: 11px;">Valeurs binaires {0, 1 / Vrai, Faux}</small></td>
+                <td><span class="badge badge-conf-élevée">Élevée</span></td>
+                <td>0 (0.0%)</td>
+                <td>2 (10.0%)</td>
+                <td><small>Aucun problème</small></td>
+                <td><small>Conserver tel quel</small></td>
+            </tr>
+            
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Section 2 : Audit de Qualité Détaillé -->
+    <div class="card">
+        <div class="card-header">2. Audit de Qualité des Données (Problèmes Détectés)</div>
+        <div class="card-body" style="padding: 0; overflow-x: auto;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Variable</th>
+                        <th>Problème</th>
+                        <th>Gravité</th>
+                        <th>Impact</th>
+                        <th>Action Proposée</th>
+                        <th>Justification Méthodologique</th>
+                        <th>État</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+            <tr>
+                <td><strong>client_id</strong></td>
+                <td>Identifiant technique</td>
+                <td><span class="badge badge-info">Moyenne</span></td>
+                <td>20 (100.0%)</td>
+                <td>Exclure des variables prédictives</td>
+                <td><small>Les identifiants causent du surapprentissage sans généralisation.</small></td>
+                <td><span class="badge badge-warning">À traiter</span></td>
+            </tr>
+            
+            <tr>
+                <td><strong>age</strong></td>
+                <td>Valeurs manquantes</td>
+                <td><span class="badge badge-success">Faible</span></td>
+                <td>1 (5.0%)</td>
+                <td>Imputation par la moyenne</td>
+                <td><small>Distribution approximativement symétrique.</small></td>
+                <td><span class="badge badge-warning">À traiter</span></td>
+            </tr>
+            
+            <tr>
+                <td><strong>salaire</strong></td>
+                <td>Valeurs manquantes</td>
+                <td><span class="badge badge-success">Faible</span></td>
+                <td>1 (5.0%)</td>
+                <td>Imputation par la moyenne</td>
+                <td><small>Distribution approximativement symétrique.</small></td>
+                <td><span class="badge badge-warning">À traiter</span></td>
+            </tr>
+            
+            <tr>
+                <td><strong>ville</strong></td>
+                <td>Espaces superflus (début/fin)</td>
+                <td><span class="badge badge-success">Faible</span></td>
+                <td>2 (10.0%)</td>
+                <td>Suppression des espaces (strip)</td>
+                <td><small>Évite la création de catégories dupliquées dues aux espaces.</small></td>
+                <td><span class="badge badge-warning">À traiter</span></td>
+            </tr>
+            
+            <tr>
+                <td><strong>ville</strong></td>
+                <td>Incohérence de casse (majuscules/minuscules)</td>
+                <td><span class="badge badge-info">Moyenne</span></td>
+                <td>3 (21.43%)</td>
+                <td>Suppression des espaces (strip)</td>
+                <td><small>Évite la création de catégories dupliquées dues aux espaces.</small></td>
+                <td><span class="badge badge-warning">À traiter</span></td>
+            </tr>
+            
+            <tr>
+                <td><strong>email_client</strong></td>
+                <td>Donnée Personnelle Sensible (Email (Nom colonne))</td>
+                <td><span class="badge badge-danger">Critique</span></td>
+                <td>20 (100.0%)</td>
+                <td>Anonymisation ou Exclusion</td>
+                <td><small>Protection des données privées (RGPD) et absence d&#x27;intérêt statistique direct.</small></td>
+                <td><span class="badge badge-warning">À traiter</span></td>
+            </tr>
+            
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Section 3 : Journal des Opérations de Nettoyage Exécutées -->
+    <div class="card">
+        <div class="card-header">3. Opérations de Nettoyage Réellement Exécutées (Traçabilité)</div>
+        <div class="card-body" style="padding: 0; overflow-x: auto;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Horodatage</th>
+                        <th>Opération</th>
+                        <th>Colonne(s)</th>
+                        <th>Stratégie</th>
+                        <th>Détails & Impact</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                <tr>
+                    <td><small>2026-11-05 14:12:51</small></td>
+                    <td><strong>Imputation Valeurs Manquantes</strong></td>
+                    <td><code>age</code></td>
+                    <td>mean</td>
+                    <td>1 valeurs imputées par la moyenne (39.158).<br><small style="color: #64748b;">Remplacement des valeurs manquantes par mean pour préserver la distribution des données et éviter les biais.</small></td>
+                </tr>
+                
+                <tr>
+                    <td><small>2026-11-05 14:12:51</small></td>
+                    <td><strong>Nettoyage Textuel</strong></td>
+                    <td><code>ville</code></td>
+                    <td>strip=True, case=lower</td>
+                    <td>Espaces nettoyés et casse normalisée (&#x27;lower&#x27;).<br><small style="color: #64748b;">Normalisation du texte (espaces, casse) pour une meilleure cohérence des données catégorielles.</small></td>
+                </tr>
+                
+                <tr>
+                    <td><small>2026-11-05 14:12:51</small></td>
+                    <td><strong>Traitement Outliers</strong></td>
+                    <td><code>salaire</code></td>
+                    <td>IQR (clip)</td>
+                    <td>Aucun outlier détecté en dehors de l&#x27;intervalle [1750.0, 107750.0].<br><small style="color: #64748b;">Traitement des valeurs aberrantes (IQR (clip)) pour réduire l&#x27;impact des points extrêmes sur les modèles.</small></td>
+                </tr>
+                
+                <tr>
+                    <td><small>2026-11-05 14:12:51</small></td>
+                    <td><strong>Suppression Doublons</strong></td>
+                    <td><code>[Toutes]</code></td>
+                    <td>Conserver &#x27;first&#x27;</td>
+                    <td>0 lignes dupliquées supprimées.<br><small style="color: #64748b;"></small></td>
+                </tr>
+                
+                <tr>
+                    <td><small>2026-11-05 14:12:51</small></td>
+                    <td><strong>Ingénierie Temporelle</strong></td>
+                    <td><code>date_inscription</code></td>
+                    <td>Décomposition temporelle</td>
+                    <td>Création de 6 variables : date_inscription_year, date_inscription_month, date_inscription_day, date_inscription_dayofweek, date_inscription_quarter, date_inscription_is_weekend<br><small style="color: #64748b;"></small></td>
+                </tr>
+                
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Section 4 : Nouvelles Caractéristiques Créées -->
+    <div class="card">
+        <div class="card-header">4. Nouvelles Caractéristiques Créées (Feature Engineering)</div>
+        <div class="card-body" style="padding: 0; overflow-x: auto;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Source</th>
+                        <th>Colonnes Générées</th>
+                        <th>Justification</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                <tr>
+                    <td><span class="badge badge-info">Temporel</span></td>
+                    <td><code>date_inscription</code></td>
+                    <td><strong>date_inscription_year, date_inscription_month, date_inscription_day, date_inscription_dayofweek, date_inscription_quarter, date_inscription_is_weekend</strong></td>
+                    <td><small>Décomposition temporelle de date_inscription en variables exploitables par les modèles ML.</small></td>
+                </tr>
+                
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Section 5 : Configuration et Pipeline Machine Learning -->
+    <div class="card">
+        <div class="card-header">5. Configuration & Pipeline Machine Learning (Garantie Zéro-Leakage)</div>
+        <div class="card-body">
+            <p><em>Aucune pipeline Machine Learning n'a encore été configurée.</em></p>
+        </div>
+    </div>
+
+    <!-- Section 6 : Résultats Après Nettoyage -->
+    <div class="card">
+        <div class="card-header">6. Résultats Après Nettoyage & Impact des Opérations</div>
+        <div class="card-body">
+            <p><strong>Nombre total d'opérations de nettoyage exécutées :</strong> 5</p>
+            <p><strong>Impact sur la qualité des données :</strong></p>
+            <ul style="margin-top: 10px; padding-left: 20px;">
+                <li>Les opérations de nettoyage ont été appliquées séquentiellement avec traçabilité complète.</li>
+                <li>Chaque opération a été justifiée méthodologiquement pour éviter les biais.</li>
+                <li>Le journal des opérations permet de reproduire exactement le processus de préparation.</li>
+            </ul>
+            <p style='margin-top: 15px; color: #16a34a;'><strong>✅ Nettoyage terminé avec succès.</strong> Les données sont prêtes pour l'analyse ou le Machine Learning.</p>
+        </div>
+    </div>
+
+    <div class="footer">
+        AutoDataPrep © 2026 — Conçu pour une préparation automatisée et rigoureuse des données en Data Science.
+    </div>
+
+</body>
+</html>

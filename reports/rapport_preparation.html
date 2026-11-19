@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>AutoDataPrep - Rapport d'Audit & Préparation des Données</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --success: #16a34a;
+            --warning: #d97706;
+            --danger: #dc2626;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #1e293b;
+            --border: #e2e8f0;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 30px 40px;
+            line-height: 1.5;
+        }
+        .header {
+            background: linear-gradient(135deg, #1e40af, #3b82f6);
+            color: white;
+            padding: 25px 30px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .header h1 { margin: 0 0 8px 0; font-size: 26px; }
+        .header p { margin: 0; opacity: 0.9; font-size: 14px; }
+        .kpi-container {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+        .kpi-card {
+            flex: 1;
+            min-width: 170px;
+            background: var(--card-bg);
+            padding: 18px 20px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .kpi-title { font-size: 13px; color: #64748b; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+        .kpi-value { font-size: 24px; font-weight: 700; color: var(--text); }
+        .card {
+            background: var(--card-bg);
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            margin-bottom: 25px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            overflow: hidden;
+        }
+        .card-header {
+            background: #f1f5f9;
+            padding: 14px 20px;
+            font-weight: 700;
+            font-size: 16px;
+            border-bottom: 1px solid var(--border);
+            color: #0f172a;
+        }
+        .card-body { padding: 20px; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13.5px;
+        }
+        th, td {
+            padding: 10px 14px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+        th {
+            background: #f8fafc;
+            color: #475569;
+            font-weight: 600;
+        }
+        tr:hover { background-color: #f8fafc; }
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-size: 11.5px;
+            font-weight: 600;
+        }
+        .badge-conf-élevée { background: #dcfce7; color: #15803d; }
+        .badge-conf-moyenne { background: #fef9c3; color: #a16207; }
+        .badge-conf-faible { background: #fee2e2; color: #b91c1c; }
+        .badge-danger { background: #fee2e2; color: #b91c1c; }
+        .badge-warning { background: #ffedd5; color: #c2410c; }
+        .badge-info { background: #e0f2fe; color: #0369a1; }
+        .badge-success { background: #dcfce7; color: #15803d; }
+        .alert {
+            padding: 14px 18px;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        .alert-danger { background: #fef2f2; border: 1px solid #fecaca; color: #991b1b; }
+        .alert-success { background: #f0fdf4; border: 1px solid #bbf7d0; color: #166534; }
+        code {
+            background: #f1f5f9;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: Consolas, Monaco, monospace;
+            font-size: 12.5px;
+            color: #d946ef;
+        }
+        .footer {
+            text-align: center;
+            font-size: 12px;
+            color: #94a3b8;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Rapport d'Audit et de Préparation Machine Learning</h1>
+        <p>Généré automatiquement par AutoDataPrep le 30/10/2026 à 08:07:04 pour <strong>TPDS.csv</strong></p>
+    </div>
+
+    <div class="kpi-container">
+        <div class="kpi-card">
+            <div class="kpi-title">Dimensions Initiales</div>
+            <div class="kpi-value">1000 × 14</div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-title">Cellules Manquantes</div>
+            <div class="kpi-value">3700 (1.44%)</div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-title">Lignes Dupliquées</div>
+            <div class="kpi-value">0 (0.0%)</div>
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-title">Mémoire Allouée</div>
+            <div class="kpi-value">722.3 Ko</div>
+        </div>
+    </div>
+
+    <!-- Section 1 : Identification Sémantique des Variables -->
+    <div class="card">
+        <div class="card-header">1. Identification Sémantique et Caractéristiques des Variables</div>
+        <div class="card-body" style="padding: 0; overflow-x: auto;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Variable</th>
+                        <th>Type Sémantique Détecté</th>
+                        <th>Confiance</th>
+                        <th>Manquantes</th>
+                        <th>Distinctes</th>
+                        <th>Problèmes Détectés</th>
+                        <th>Recommandations</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+            <tr>
+                <td><strong>transaction_id</strong></td>
+                <td>Identifiant technique</td>
+                <td><span class="badge badge-conf-élevée">Élevée</span></td>
+                <td>0 (0.0%)</td>
+                <td>1000 (100.0%)</td>
+                <td><small>Identifiant technique</small></td>
+                <td><small>Exclure des variables prédictives</small></td>
+            </tr>
+            
+            <tr>
+                <td><strong>client_id</strong></td>
+                <td>Catégoriel nominal</td>
+                <td><span class="badge badge-conf-élevée">Élevée</span></td>
+                <td>0 (0.0%)</td>
+                <td>947 (94.7%)</td>
+                <td><small>Modalités rares (&lt;1% fréquence)</small></td>
+                <td><small>Regroupement des catégories rares</small></td>
+            </tr>
+            
+            <tr>
+                <td><strong>date</strong></td>
+                <td>Temporel (Date/Heure)</td>
+                <td><span class="badge badge-conf-élevée">Élevée</span></td>
+                <td>0 (0.0%)</td>
+                <td>93 (9.3%)</td>
+                <td><small>Aucun problème</small></td>
+                <td><small>Conserver tel quel</small></td>
+            </tr>
+            
+            <tr>
+                <td><strong>heure</strong></td>
+                <td>Temporel (Date/Heure)</td>
+                <td><span class="badge badge-conf-élevée">Élevée</span></td>
+                <td>0 (0.0%)</td>
+                <td>993 (99.3%)</td>
+                <td><small>Aucun problème</small></td>
+                <td><small>Conserver tel quel</small></td>
+            </tr>
+            
+            <tr>
+                <td><strong>montant</strong></td>
+                <td>Numérique continu</td>
+                <td><span class="badge badge-conf-élevée">Élevée</span></td>
+                <td>0 (0.0%)</td>
+                <td>950 (95.0%)</td>
+                <td><small>Aucun problème</small></td>
+                <td><small>Conserver tel quel</small></td>
+            </tr>
+            
+            <tr>
+                <td><strong>devise</strong></td>
+                <td>Catégoriel nominal</td>
+                <td><span class="badge badge-conf-élevée">Élevée</span></td>
+                <td>0 (0.0%)</td>
+                <td>3 (0.3%)</td>
+                <td><small>Aucun problème</small></td>
+                <td><small>Conserver tel quel</small></td>
+            </tr>
+            
+            <tr>
+                <td><strong>type_transaction</strong></td>
+                <td>Catégoriel nominal</td>
+                <td><span class="badge badge-conf-élevée">Élevée</span></td>
+                <td>0 (0.0%)</td>
+                <td>3 (0.3%)</td>
+                <td><small>Aucun problème</small></td>
+                <td><small>Conserver tel quel</small></td>
+            </tr>
+            
+            <tr>
+                <td><strong>lieu</strong></td>
+                <td>Catégoriel nominal</td>
+                <td><span class="badge badge-conf-élevée">Élevée</span></td>
+                <td>52 (5.2%)</td>
+                <td>6 (0.6%)</td>
+                <td><small>Valeurs manquantes</small></td>
+                <td><small>Imputation par le mode (valeur la plus fréquente)</small></td>
+            </tr>
+            
+            <tr>
+                <td><strong>canal</strong></td>
+                <td>Catégoriel nominal</td>
+                <td><span class="badge badge-conf-élevée">Élevée</span></td>
+                <td>0 (0.0%)</td>
+                <td>4 (0.4%)</td>
+                <td><small>Aucun problème</small></td>
+                <td><small>Conserver tel quel</small></td>
+            </tr>
+            
+            <tr>
+                <td><strong>moyen_paiement</strong></td>
+                <td>Catégoriel nominal</td>
+                <td><span class="badge badge-conf-élevée">Élevée</span></td>
+                <td>0 (0.0%)</td>
+                <td>4 (0.4%)</td>
+                <td><small>Aucun problème</small></td>
+                <td><small>Conserver tel quel</small></td>
+            </tr>
+            
+            <tr>
+                <td><strong>categorie_commerce</strong></td>
+                <td>Catégoriel nominal</td>
+                <td><span class="badge badge-conf-élevée">Élevée</span></td>
+                <td>0 (0.0%)</td>
+                <td>5 (0.5%)</td>
+                <td><small>Aucun problème</small></td>
+                <td><small>Conserver tel quel</small></td>
+            </tr>
+            
+            <tr>
+                <td><strong>device_utilise</strong></td>
+                <td>Catégoriel nominal</td>
+                <td><span class="badge badge-conf-élevée">Élevée</span></td>
+                <td>0 (0.0%)</td>
+                <td>4 (0.4%)</td>
+                <td><small>Aucun problème</small></td>
+                <td><small>Conserver tel quel</small></td>
+            </tr>
+            
+            <tr>
+                <td><strong>score_risque_client</strong></td>
+                <td>Numérique discret</td>
+                <td><span class="badge badge-conf-élevée">Élevée</span></td>
+                <td>0 (0.0%)</td>
+                <td>10 (1.0%)</td>
+                <td><small>Aucun problème</small></td>
+                <td><small>Conserver tel quel</small></td>
+            </tr>
+            
+            <tr>
+                <td><strong>is_fraud</strong></td>
+                <td>Booléen</td>
+                <td><span class="badge badge-conf-élevée">Élevée</span></td>
+                <td>0 (0.0%)</td>
+                <td>2 (0.2%)</td>
+                <td><small>Aucun problème</small></td>
+                <td><small>Conserver tel quel</small></td>
+            </tr>
+            
+            <tr>
+                <td><strong>date_year</strong></td>
+                <td>Constant ou quasi-constant</td>
+                <td><span class="badge badge-conf-élevée">Élevée</span></td>
+                <td>608 (60.8%)</td>
+                <td>1 (0.26%)</td>
+                <td><small>Valeurs manquantes, Colonne constante ou quasi-invariable</small></td>
+                <td><small>Suppression de la colonne</small></td>
+            </tr>
+            
+            <tr>
+                <td><strong>date_month</strong></td>
+                <td>Numérique continu</td>
+                <td><span class="badge badge-conf-élevée">Élevée</span></td>
+                <td>608 (60.8%)</td>
+                <td>12 (3.06%)</td>
+                <td><small>Valeurs manquantes</small></td>
+                <td><small>Imputation par la moyenne</small></td>
+            </tr>
+            
+            <tr>
+                <td><strong>date_day</strong></td>
+                <td>Numérique discret</td>
+                <td><span class="badge badge-conf-moyenne">Moyenne</span></td>
+                <td>608 (60.8%)</td>
+                <td>4 (1.02%)</td>
+                <td><small>Valeurs manquantes</small></td>
+                <td><small>Imputation par la moyenne</small></td>
+            </tr>
+            
+            <tr>
+                <td><strong>date_dayofweek</strong></td>
+                <td>Numérique discret</td>
+                <td><span class="badge badge-conf-moyenne">Moyenne</span></td>
+                <td>608 (60.8%)</td>
+                <td>7 (1.79%)</td>
+                <td><small>Valeurs manquantes</small></td>
+                <td><small>Imputation par la moyenne</small></td>
+            </tr>
+            
+            <tr>
+                <td><strong>date_quarter</strong></td>
+                <td>Numérique discret</td>
+                <td><span class="badge badge-conf-moyenne">Moyenne</span></td>
+                <td>608 (60.8%)</td>
+                <td>4 (1.02%)</td>
+                <td><small>Valeurs manquantes</small></td>
+                <td><small>Imputation par la moyenne</small></td>
+            </tr>
+            
+            <tr>
+                <td><strong>date_is_weekend</strong></td>
+                <td>Booléen</td>
+                <td><span class="badge badge-conf-élevée">Élevée</span></td>
+                <td>0 (0.0%)</td>
+                <td>2 (0.2%)</td>
+                <td><small>Aucun problème</small></td>
+                <td><small>Conserver tel quel</small></td>
+            </tr>
+            
+            <tr>
+                <td><strong>date_hour</strong></td>
+                <td>Constant ou quasi-constant</td>
+                <td><span class="badge badge-conf-élevée">Élevée</span></td>
+                <td>608 (60.8%)</td>
+                <td>1 (0.26%)</td>
+                <td><small>Valeurs manquantes, Colonne constante ou quasi-invariable</small></td>
+                <td><small>Suppression de la colonne</small></td>
+            </tr>
+            
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Section 2 : Audit de Qualité Détaillé -->
+    <div class="card">
+        <div class="card-header">2. Audit de Qualité des Données (Problèmes Détectés)</div>
+        <div class="card-body" style="padding: 0; overflow-x: auto;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Variable</th>
+                        <th>Problème</th>
+                        <th>Gravité</th>
+                        <th>Impact</th>
+                        <th>Action Proposée</th>
+                        <th>Justification Méthodologique</th>
+                        <th>État</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+            <tr>
+                <td><strong>transaction_id</strong></td>
+                <td>Identifiant technique</td>
+                <td><span class="badge badge-info">Moyenne</span></td>
+                <td>1000 (100.0%)</td>
+                <td>Exclure des variables prédictives</td>
+                <td><small>Les identifiants causent du surapprentissage sans généralisation.</small></td>
+                <td><span class="badge badge-warning">À traiter</span></td>
+            </tr>
+            
+            <tr>
+                <td><strong>client_id</strong></td>
+                <td>Modalités rares (&lt;1% fréquence)</td>
+                <td><span class="badge badge-success">Faible</span></td>
+                <td>947 (100.0%)</td>
+                <td>Regroupement des catégories rares</td>
+                <td><small>Évite l&#x27;explosion du nombre de colonnes lors du One-Hot Encoding.</small></td>
+                <td><span class="badge badge-warning">À traiter</span></td>
+            </tr>
+            
+            <tr>
+                <td><strong>lieu</strong></td>
+                <td>Valeurs manquantes</td>
+                <td><span class="badge badge-info">Moyenne</span></td>
+                <td>52 (5.2%)</td>
+                <td>Imputation par le mode (valeur la plus fréquente)</td>
+                <td><small>Taux d&#x27;absence faible sur variable catégorielle.</small></td>
+                <td><span class="badge badge-warning">À traiter</span></td>
+            </tr>
+            
+            <tr>
+                <td><strong>date_year</strong></td>
+                <td>Valeurs manquantes</td>
+                <td><span class="badge badge-danger">Critique</span></td>
+                <td>608 (60.8%)</td>
+                <td>Suppression de la colonne</td>
+                <td><small>N&#x27;apporte aucun pouvoir prédictif aux modèles de Machine Learning.</small></td>
+                <td><span class="badge badge-warning">À traiter</span></td>
+            </tr>
+            
+            <tr>
+                <td><strong>date_year</strong></td>
+                <td>Colonne constante ou quasi-invariable</td>
+                <td><span class="badge badge-danger">Critique</span></td>
+                <td>1000 (100.0%)</td>
+                <td>Suppression de la colonne</td>
+                <td><small>N&#x27;apporte aucun pouvoir prédictif aux modèles de Machine Learning.</small></td>
+                <td><span class="badge badge-warning">À traiter</span></td>
+            </tr>
+            
+            <tr>
+                <td><strong>date_month</strong></td>
+                <td>Valeurs manquantes</td>
+                <td><span class="badge badge-danger">Critique</span></td>
+                <td>608 (60.8%)</td>
+                <td>Imputation par la moyenne</td>
+                <td><small>Distribution approximativement symétrique.</small></td>
+                <td><span class="badge badge-warning">À traiter</span></td>
+            </tr>
+            
+            <tr>
+                <td><strong>date_day</strong></td>
+                <td>Valeurs manquantes</td>
+                <td><span class="badge badge-danger">Critique</span></td>
+                <td>608 (60.8%)</td>
+                <td>Imputation par la moyenne</td>
+                <td><small>Distribution approximativement symétrique.</small></td>
+                <td><span class="badge badge-warning">À traiter</span></td>
+            </tr>
+            
+            <tr>
+                <td><strong>date_dayofweek</strong></td>
+                <td>Valeurs manquantes</td>
+                <td><span class="badge badge-danger">Critique</span></td>
+                <td>608 (60.8%)</td>
+                <td>Imputation par la moyenne</td>
+                <td><small>Distribution approximativement symétrique.</small></td>
+                <td><span class="badge badge-warning">À traiter</span></td>
+            </tr>
+            
+            <tr>
+                <td><strong>date_quarter</strong></td>
+                <td>Valeurs manquantes</td>
+                <td><span class="badge badge-danger">Critique</span></td>
+                <td>608 (60.8%)</td>
+                <td>Imputation par la moyenne</td>
+                <td><small>Distribution approximativement symétrique.</small></td>
+                <td><span class="badge badge-warning">À traiter</span></td>
+            </tr>
+            
+            <tr>
+                <td><strong>date_hour</strong></td>
+                <td>Valeurs manquantes</td>
+                <td><span class="badge badge-danger">Critique</span></td>
+                <td>608 (60.8%)</td>
+                <td>Suppression de la colonne</td>
+                <td><small>N&#x27;apporte aucun pouvoir prédictif aux modèles de Machine Learning.</small></td>
+                <td><span class="badge badge-warning">À traiter</span></td>
+            </tr>
+            
+            <tr>
+                <td><strong>date_hour</strong></td>
+                <td>Colonne constante ou quasi-invariable</td>
+                <td><span class="badge badge-danger">Critique</span></td>
+                <td>1000 (100.0%)</td>
+                <td>Suppression de la colonne</td>
+                <td><small>N&#x27;apporte aucun pouvoir prédictif aux modèles de Machine Learning.</small></td>
+                <td><span class="badge badge-warning">À traiter</span></td>
+            </tr>
+            
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Section 3 : Journal des Opérations de Nettoyage Exécutées -->
+    <div class="card">
+        <div class="card-header">3. Opérations de Nettoyage Réellement Exécutées (Traçabilité)</div>
+        <div class="card-body" style="padding: 0; overflow-x: auto;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Horodatage</th>
+                        <th>Opération</th>
+                        <th>Colonne(s)</th>
+                        <th>Stratégie</th>
+                        <th>Détails & Impact</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                <tr>
+                    <td><small>2026-10-29 06:29:47</small></td>
+                    <td><strong>Suppression Doublons</strong></td>
+                    <td><code>[Toutes]</code></td>
+                    <td>Conserver &#x27;first&#x27;</td>
+                    <td>0 lignes dupliquées supprimées.</td>
+                </tr>
+                
+                <tr>
+                    <td><small>2026-10-29 06:29:47</small></td>
+                    <td><strong>Nettoyage Textuel</strong></td>
+                    <td><code>transaction_id</code></td>
+                    <td>strip=True, case=None</td>
+                    <td>Espaces nettoyés et casse normalisée (&#x27;None&#x27;).</td>
+                </tr>
+                
+                <tr>
+                    <td><small>2026-10-29 06:29:47</small></td>
+                    <td><strong>Nettoyage Textuel</strong></td>
+                    <td><code>client_id</code></td>
+                    <td>strip=True, case=None</td>
+                    <td>Espaces nettoyés et casse normalisée (&#x27;None&#x27;).</td>
+                </tr>
+                
+                <tr>
+                    <td><small>2026-10-29 06:29:47</small></td>
+                    <td><strong>Nettoyage Textuel</strong></td>
+                    <td><code>date</code></td>
+                    <td>strip=True, case=None</td>
+                    <td>Espaces nettoyés et casse normalisée (&#x27;None&#x27;).</td>
+                </tr>
+                
+                <tr>
+                    <td><small>2026-10-29 06:29:47</small></td>
+                    <td><strong>Nettoyage Textuel</strong></td>
+                    <td><code>heure</code></td>
+                    <td>strip=True, case=None</td>
+                    <td>Espaces nettoyés et casse normalisée (&#x27;None&#x27;).</td>
+                </tr>
+                
+                <tr>
+                    <td><small>2026-10-29 06:29:47</small></td>
+                    <td><strong>Imputation Valeurs Manquantes</strong></td>
+                    <td><code>montant</code></td>
+                    <td>median</td>
+                    <td>50 valeurs imputées par la médiane (5064.445).</td>
+                </tr>
+                
+                <tr>
+                    <td><small>2026-10-29 06:29:47</small></td>
+                    <td><strong>Nettoyage Textuel</strong></td>
+                    <td><code>devise</code></td>
+                    <td>strip=True, case=None</td>
+                    <td>Espaces nettoyés et casse normalisée (&#x27;None&#x27;).</td>
+                </tr>
+                
+                <tr>
+                    <td><small>2026-10-29 06:29:47</small></td>
+                    <td><strong>Imputation Valeurs Manquantes</strong></td>
+                    <td><code>devise</code></td>
+                    <td>mode</td>
+                    <td>50 valeurs imputées par le mode (&#x27;MAD&#x27;).</td>
+                </tr>
+                
+                <tr>
+                    <td><small>2026-10-29 06:29:47</small></td>
+                    <td><strong>Nettoyage Textuel</strong></td>
+                    <td><code>type_transaction</code></td>
+                    <td>strip=True, case=None</td>
+                    <td>Espaces nettoyés et casse normalisée (&#x27;None&#x27;).</td>
+                </tr>
+                
+                <tr>
+                    <td><small>2026-10-29 06:29:47</small></td>
+                    <td><strong>Nettoyage Textuel</strong></td>
+                    <td><code>lieu</code></td>
+                    <td>strip=True, case=None</td>
+                    <td>Espaces nettoyés et casse normalisée (&#x27;None&#x27;).</td>
+                </tr>
+                
+                <tr>
+                    <td><small>2026-10-29 06:29:47</small></td>
+                    <td><strong>Nettoyage Textuel</strong></td>
+                    <td><code>canal</code></td>
+                    <td>strip=True, case=None</td>
+                    <td>Espaces nettoyés et casse normalisée (&#x27;None&#x27;).</td>
+                </tr>
+                
+                <tr>
+                    <td><small>2026-10-29 06:29:47</small></td>
+                    <td><strong>Nettoyage Textuel</strong></td>
+                    <td><code>moyen_paiement</code></td>
+                    <td>strip=True, case=None</td>
+                    <td>Espaces nettoyés et casse normalisée (&#x27;None&#x27;).</td>
+                </tr>
+                
+                <tr>
+                    <td><small>2026-10-29 06:29:47</small></td>
+                    <td><strong>Imputation Valeurs Manquantes</strong></td>
+                    <td><code>moyen_paiement</code></td>
+                    <td>mode</td>
+                    <td>50 valeurs imputées par le mode (&#x27;Visa&#x27;).</td>
+                </tr>
+                
+                <tr>
+                    <td><small>2026-10-29 06:29:47</small></td>
+                    <td><strong>Nettoyage Textuel</strong></td>
+                    <td><code>categorie_commerce</code></td>
+                    <td>strip=True, case=None</td>
+                    <td>Espaces nettoyés et casse normalisée (&#x27;None&#x27;).</td>
+                </tr>
+                
+                <tr>
+                    <td><small>2026-10-29 06:29:47</small></td>
+                    <td><strong>Nettoyage Textuel</strong></td>
+                    <td><code>device_utilise</code></td>
+                    <td>strip=True, case=None</td>
+                    <td>Espaces nettoyés et casse normalisée (&#x27;None&#x27;).</td>
+                </tr>
+                
+                <tr>
+                    <td><small>2026-10-29 06:31:32</small></td>
+                    <td><strong>Nettoyage Textuel</strong></td>
+                    <td><code>devise</code></td>
+                    <td>strip=True, case=lower</td>
+                    <td>Espaces nettoyés et casse normalisée (&#x27;lower&#x27;).</td>
+                </tr>
+                
+                <tr>
+                    <td><small>2026-10-29 06:31:37</small></td>
+                    <td><strong>Nettoyage Textuel</strong></td>
+                    <td><code>transaction_id</code></td>
+                    <td>strip=True, case=lower</td>
+                    <td>Espaces nettoyés et casse normalisée (&#x27;lower&#x27;).</td>
+                </tr>
+                
+                <tr>
+                    <td><small>2026-10-29 06:31:41</small></td>
+                    <td><strong>Nettoyage Textuel</strong></td>
+                    <td><code>client_id</code></td>
+                    <td>strip=True, case=lower</td>
+                    <td>Espaces nettoyés et casse normalisée (&#x27;lower&#x27;).</td>
+                </tr>
+                
+                <tr>
+                    <td><small>2026-10-29 06:31:45</small></td>
+                    <td><strong>Nettoyage Textuel</strong></td>
+                    <td><code>heure</code></td>
+                    <td>strip=True, case=lower</td>
+                    <td>Espaces nettoyés et casse normalisée (&#x27;lower&#x27;).</td>
+                </tr>
+                
+                <tr>
+                    <td><small>2026-10-29 06:31:48</small></td>
+                    <td><strong>Nettoyage Textuel</strong></td>
+                    <td><code>date</code></td>
+                    <td>strip=True, case=lower</td>
+                    <td>Espaces nettoyés et casse normalisée (&#x27;lower&#x27;).</td>
+                </tr>
+                
+                <tr>
+                    <td><small>2026-10-29 06:31:52</small></td>
+                    <td><strong>Nettoyage Textuel</strong></td>
+                    <td><code>type_transaction</code></td>
+                    <td>strip=True, case=lower</td>
+                    <td>Espaces nettoyés et casse normalisée (&#x27;lower&#x27;).</td>
+                </tr>
+                
+                <tr>
+                    <td><small>2026-10-29 06:31:56</small></td>
+                    <td><strong>Nettoyage Textuel</strong></td>
+                    <td><code>lieu</code></td>
+                    <td>strip=True, case=lower</td>
+                    <td>Espaces nettoyés et casse normalisée (&#x27;lower&#x27;).</td>
+                </tr>
+                
+                <tr>
+                    <td><small>2026-10-29 06:31:59</small></td>
+                    <td><strong>Nettoyage Textuel</strong></td>
+                    <td><code>moyen_paiement</code></td>
+                    <td>strip=True, case=lower</td>
+                    <td>Espaces nettoyés et casse normalisée (&#x27;lower&#x27;).</td>
+                </tr>
+                
+                <tr>
+                    <td><small>2026-10-29 06:32:03</small></td>
+                    <td><strong>Nettoyage Textuel</strong></td>
+                    <td><code>canal</code></td>
+                    <td>strip=True, case=lower</td>
+                    <td>Espaces nettoyés et casse normalisée (&#x27;lower&#x27;).</td>
+                </tr>
+                
+                <tr>
+                    <td><small>2026-10-29 06:32:04</small></td>
+                    <td><strong>Nettoyage Textuel</strong></td>
+                    <td><code>canal</code></td>
+                    <td>strip=True, case=lower</td>
+                    <td>Espaces nettoyés et casse normalisée (&#x27;lower&#x27;).</td>
+                </tr>
+                
+                <tr>
+                    <td><small>2026-10-29 06:32:10</small></td>
+                    <td><strong>Nettoyage Textuel</strong></td>
+                    <td><code>moyen_paiement</code></td>
+                    <td>strip=True, case=lower</td>
+                    <td>Espaces nettoyés et casse normalisée (&#x27;lower&#x27;).</td>
+                </tr>
+                
+                <tr>
+                    <td><small>2026-10-29 06:32:13</small></td>
+                    <td><strong>Nettoyage Textuel</strong></td>
+                    <td><code>categorie_commerce</code></td>
+                    <td>strip=True, case=lower</td>
+                    <td>Espaces nettoyés et casse normalisée (&#x27;lower&#x27;).</td>
+                </tr>
+                
+                <tr>
+                    <td><small>2026-10-29 06:32:15</small></td>
+                    <td><strong>Suppression Doublons</strong></td>
+                    <td><code>[Toutes]</code></td>
+                    <td>Conserver &#x27;first&#x27;</td>
+                    <td>0 lignes dupliquées supprimées.</td>
+                </tr>
+                
+                <tr>
+                    <td><small>2026-10-29 06:36:28</small></td>
+                    <td><strong>Imputation Valeurs Manquantes</strong></td>
+                    <td><code>lieu</code></td>
+                    <td>constant</td>
+                    <td>52 valeurs imputées par la constante (&#x27;Inconnu&#x27;).</td>
+                </tr>
+                
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Section 4 : Nouvelles Caractéristiques Créées -->
+    <div class="card">
+        <div class="card-header">4. Nouvelles Caractéristiques Créées (Feature Engineering)</div>
+        <div class="card-body" style="padding: 0; overflow-x: auto;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Source</th>
+                        <th>Colonnes Générées</th>
+                        <th>Justification</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                <tr>
+                    <td><span class="badge badge-info">Temporel</span></td>
+                    <td><code>date</code></td>
+                    <td><strong>date_year, date_month, date_day, date_dayofweek, date_quarter, date_is_weekend, date_hour</strong></td>
+                    <td><small>Décomposition temporelle de date en variables exploitables par les modèles ML.</small></td>
+                </tr>
+                
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Section 5 : Configuration et Pipeline Machine Learning -->
+    <div class="card">
+        <div class="card-header">5. Configuration & Pipeline Machine Learning (Garantie Zéro-Leakage)</div>
+        <div class="card-body">
+            
+            <div class="card">
+                <div class="card-body">
+                    <p><strong>Mode :</strong> Supervised | <strong>Tâche identifiée :</strong> <span class="badge badge-info">Classification Binaire</span></p>
+                    <p><strong>Variable Cible :</strong> <code>is_fraud</code> | <strong>Stratégie de split :</strong> stratified (Test: 20%)</p>
+                    <p><strong>Mise à l'échelle numérique :</strong> Standard | <strong>Encodage catégoriel :</strong> Ordinal</p>
+                    <p><strong>Dimensions Train :</strong> 800 lignes × 20 variables | <strong>Test :</strong> 200 lignes × 20 variables</p>
+                    <div class='alert alert-success' style='margin-top: 15px;'>✅ Aucun risque de fuite de données détecté.</div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    <div class="footer">
+        AutoDataPrep © 2026 — Conçu pour une préparation automatisée et rigoureuse des données en Data Science.
+    </div>
+
+</body>
+</html>
